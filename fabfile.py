@@ -2,26 +2,33 @@ from fabric.api import local, env, prompt, shell_env
 import time
 
 #Environments
-def _define_env(compose_files, name, 
-                webattached=False, password=None):
+def _define_env(compose_files, name, django_env, 
+                webattached=False, password=None, secret_key=None):
     env.compose_files = compose_files
     env.project_name = name
     env.webattached = webattached
     env.postgres_password = password if (password is not None) else prompt(
         "Database password:")
+    env.secret_key = secret_key if (secret_key is not None) else prompt(
+        "Django's secret key:")
+    env.django_env = django_env
     
 def localhost():
-    _define_env(["local"], "local", True, "fakeAsth3$pecial3d1710|\|s")
+    _define_env(["local"], "local", "localhost", True, 
+        "fakeAsth3$pecial3d1710|\|s", "thiskeyissosecretololololololo")
 
 def pylint():
-    _define_env(["pylint"], "pylint", True, "fakepassword")
+    _define_env(["pylint"], "pylint", "localhost", True, "fakepassword", 
+        "petitecle")
 
 def production():
-    _define_env(["production", "nginx"], "production")
+    _define_env(["production", "nginx"], "production", "production")
 
 #Commands
 def _compose_command(command):
-    with shell_env(POSTGRES_PASSWORD=env.postgres_password):
+    with shell_env(POSTGRES_PASSWORD=env.postgres_password,
+                   SECRET_KEY=env.secret_key,
+                   DJANGO_SETTINGS_MODULE="metacvserver.conf."+env.django_env):
         local("docker-compose -f docker-compose.yml\
               {files} -p {project} {command}".format(
             files = " ".join(["-f docker-compose.{name}.yml".format(name=name) 

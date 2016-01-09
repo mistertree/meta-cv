@@ -12,20 +12,15 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '#-u6a!8l6e-#c7fd!ynv+&*(rf38vp6r46c0osa8rc^6k@5!%4'
+SECRET_KEY = os.environ['SECRET_KEY']
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+ALLOWED_HOSTS = ['heymistertree.eu']
 
 TEMPLATE_DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -101,7 +96,37 @@ STATICFILES_FINDERS = (
 MEDIA_ROOT = '/var/django/metacvserver_media/'
 MEDIA_URL = '/media/'
 
-SASS_OUTPUT_STYLE = "compressed"
 SASS_PROCESSOR_INCLUDE_DIRS = (
     'common/',
 )
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+      'request': {
+        'level': 'INFO',
+        'class': 'logging.FileHandler',
+        'filename':
+          '/var/django/metacvserver_logs/request.log',
+      },
+      'security': {
+        'level': 'INFO',
+        'class': 'logging.FileHandler',
+        'filename':
+          '/var/django/metacvserver_logs/security.log',
+      },
+    },
+    'loggers': {
+      'django.request': {
+        'handlers': ['request'],
+        'level': 'DEBUG',
+        'propagate': True,
+      },
+      'django.security': {
+        'handlers': ['security'],
+        'level': 'DEBUG',
+        'propagate': True,
+      },
+    },
+}

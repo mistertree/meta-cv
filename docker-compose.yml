@@ -19,10 +19,14 @@ web:
   volumes_from:
     - webmedia 
   environment:
+    - DJANGO_SETTINGS_MODULE
     - POSTGRES_PASSWORD
+    - SECRET_KEY
+    - PYTHONHASHSEED=random
 
 webmedia:
   image: busybox
   volumes:
     - /var/django/metacvserver_media/
     - /var/django/metacvserver_static/
+    - /var/django/metacvserver_logs/
