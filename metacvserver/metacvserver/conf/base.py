@@ -34,7 +34,8 @@ INSTALLED_APPS = (
     'sass_processor',
     'cv',
     'video',
-    'themaintemplate'
+    'themaintemplate',
+    'analytical'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -130,3 +131,6 @@ LOGGING = {
       },
     },
 }
+
+GOOGLE_ANALYTICS_PROPERTY_ID = os.environ['GOOGLE_ANALYTICS_KEY']
+GOOGLE_ANALYTICS_SITE_SPEED = True

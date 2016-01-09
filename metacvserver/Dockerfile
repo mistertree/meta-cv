@@ -13,6 +13,14 @@ RUN pip3 install uwsgi pylint
 RUN pip3 install django==1.9 psycopg2==2.6 pillow==3.0.0 \
 django-sass-processor==0.3.3 libsass==0.10.0
 
+#Waiting for the official release of the new version of this library.
+RUN apt-get -y install git
+RUN git clone https://github.com/jcassee/django-analytical /tmp/repo; git -C \
+/tmp/repo/ checkout 735d86d16fc048c048b20b622b5f655fb2a28e90
+RUN cd /tmp/repo/; python3.4 setup.py install
+RUN rm -r /tmp/repo/
+RUN apt-get -y remove git; apt-get -y autoremove
+
 WORKDIR /var/django/metacvserver/
 
 ADD common common

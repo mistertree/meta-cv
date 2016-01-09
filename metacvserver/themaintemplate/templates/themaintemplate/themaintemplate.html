@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load staticfiles %}
 {% load sass_tags %}
+{% load google_analytics %}
 
 <html>
   <head>
@@ -11,6 +12,7 @@
     <link rel="stylesheet" href="{% sass_src filename %}" type="text/css"/>
     {%endfor%}
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% google_analytics %}
   </head>
   <body>
     <header>

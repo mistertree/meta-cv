@@ -3,32 +3,38 @@ import time
 
 #Environments
 def _define_env(compose_files, name, django_env, 
-                webattached=False, password=None, secret_key=None):
+                webattached=False, password=None, secret_key=None,
+                google_analytics_key = None):
     env.compose_files = compose_files
     env.project_name = name
     env.webattached = webattached
-    env.postgres_password = password if (password is not None) else prompt(
-        "Database password:")
-    env.secret_key = secret_key if (secret_key is not None) else prompt(
-        "Django's secret key:")
-    env.django_env = django_env
-    
+    def _(variable, message, dummydata=None):
+        return variable if (variable is not None) else prompt(message,
+            default=dummydata)
+        
+    env.shell_env_vars = {
+        'POSTGRES_PASSWORD': _(password, "Database password:", "sideshow"),
+        'SECRET_KEY' : _(secret_key, "Django's secret key:", "sideshow"),
+        'DJANGO_SETTINGS_MODULE' : "metacvserver.conf.%s" % django_env,
+        'GOOGLE_ANALYTICS_KEY': _(google_analytics_key, 
+            'Google Analytics Key:', "UA-0-1")
+    }
+
 def localhost():
     _define_env(["local"], "local", "localhost", True, 
-        "fakeAsth3$pecial3d1710|\|s", "thiskeyissosecretololololololo")
+        "fakeAsth3$pecial3d1710|\|s", "thiskeyissosecretololololololo",
+        "UA-0-0")
 
 def pylint():
     _define_env(["pylint"], "pylint", "localhost", True, "fakepassword", 
-        "petitecle")
+        "petitecle", "UA-0-0")
 
 def production():
     _define_env(["production", "nginx"], "production", "production")
 
 #Commands
 def _compose_command(command):
-    with shell_env(POSTGRES_PASSWORD=env.postgres_password,
-                   SECRET_KEY=env.secret_key,
-                   DJANGO_SETTINGS_MODULE="metacvserver.conf."+env.django_env):
+    with shell_env(**env.shell_env_vars):
         local("docker-compose -f docker-compose.yml\
               {files} -p {project} {command}".format(
             files = " ".join(["-f docker-compose.{name}.yml".format(name=name) 

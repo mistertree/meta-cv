@@ -22,6 +22,7 @@ web:
     - DJANGO_SETTINGS_MODULE
     - POSTGRES_PASSWORD
     - SECRET_KEY
+    - GOOGLE_ANALYTICS_KEY
     - PYTHONHASHSEED=random
 
 webmedia:
