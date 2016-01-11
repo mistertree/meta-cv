@@ -36,6 +36,7 @@ class TheMainTemplateView(TemplateView, FormMixin):
         ctx['dart'] = list()
         ctx['name'] = "{firstname} {surname}".format(
             firstname = settings.FIRST_NAME, surname=settings.SURNAME)
+        ctx['age'] = settings.AGE
 
         if self.request.method == "POST" and self.get_form().is_valid():
             ctx['mail'] = settings.PUBLIC_EMAIL

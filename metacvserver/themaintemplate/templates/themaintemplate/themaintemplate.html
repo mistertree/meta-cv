@@ -19,7 +19,7 @@
   <body>
     <header>
         <h1>{{name}}{% trans "'s meta-cv"%}</h1>
-        <p class="subtitle">{% trans "20 years old, french developper."%}</p>
+        <p class="subtitle">{{age}} {% trans "years old, french developper."%}</p>
         {{html.video}}
     </header>
     {{html.cv}}

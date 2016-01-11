@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from datetime import datetime
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
@@ -138,3 +139,4 @@ GOOGLE_ANALYTICS_SITE_SPEED = True
 FIRST_NAME = "Florent"
 SURNAME = "Pastor"
 PUBLIC_EMAIL = "mistertree@openmailbox.org"
+AGE = int((datetime.now() - datetime(day=27, month=8, year=1994)).days/365)
