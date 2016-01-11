@@ -6,7 +6,7 @@
 <html>
   <head>
     <title>{% trans "Florent Pastor's meta-cv"%}</title>
-    <meta name="author" content="Florent 'Mister Tree' Pastor"/>
+    <meta name="author" content="{{name}}, a.k.a. Mister Tree"/>
     <meta name="description" content="I'm Florent Pastor, a web developer based on London. My Meta-CV allows you to discover my skills through its content and its code. A video presentation is also available. Enjoy!"/>
     <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{% sass_src 'themaintemplate/style.scss' %}" type="text/css"/>
@@ -18,13 +18,30 @@
   </head>
   <body>
     <header>
-        <h1>{% trans "Florent Pastor's meta-cv"%}</h1>
+        <h1>{{name}}{% trans "'s meta-cv"%}</h1>
         <p class="subtitle">{% trans "20 years old, french developper."%}</p>
         {{html.video}}
     </header>
     {{html.cv}}
     <footer>
-      <p>This is a meta-cv, meaning its code is also design to show my skills.  Come and discover it on <a href="https://github.com/mistertree/meta-cv">GitHub !</a></p>
+      <p id="github_info">This is a meta-cv, meaning its code is also design to show my skills.  Come and discover it on <a href="https://github.com/mistertree/meta-cv">GitHub !</a></p>
+      <p id="mail"><span>E-mail address :</span>
+      {% if mail %}
+      <a href="mailto:{{mail}}"/>{{mail}}</a></p>
+      {% else %}
+      Fill up the following captcha to see my e-mail address.</p>
+      <form action="" method="POST">
+          <p>Select the correct letters from my first name :</p>
+          {% csrf_token %}
+          {% for field in form %}
+              {{ field.label_tag }} {{ field }}
+          {% endfor %}
+          <input type="submit" value="Submit"/>
+          {% if form.errors %}
+          <p>Something is wrong. Check your answers !</p>
+          {% endif %}
+      </form>
+      {% endif %}
     </footer>
     {%for filename in dart %}
     <script type="application/dart" src="{% static filename %}"> </script>

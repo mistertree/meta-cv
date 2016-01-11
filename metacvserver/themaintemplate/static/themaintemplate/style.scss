@@ -31,24 +31,28 @@ footer, .block{
   font-family: 'Ubuntu', sans-serif;
 }
 
+@mixin font-size($font-size){
+    font-size: $font-size;
+}
 body{
     @media #{$desktop}{
-        font-size: 16px;
+        @include font-size(16px);
     }
     @media #{$tablet}{
-        font-size: 21px;
+        @include font-size(21px);
     }
     @media #{$mobile}{
-        font-size: 20px;
+        @include font-size(20px);
     }
 }
 
+$border : 2px dotted black;
 header{
-  border-bottom: 2px dotted black;
+  border-bottom: $border;
 }
 
 footer{
-  border-top : 2px dotted black;
+  border-top : $border;
 }
 
 header h1{
@@ -75,7 +79,7 @@ body{
   
   //Tie in with the video module
   &.video_only{
-      background-color: #333333;
+      background-color: $background-color-video-on;
 
       @media #{$mobile}{
           header p, header h1, > div, > footer{
@@ -86,3 +90,24 @@ body{
 
 }
 
+footer p#github_info{
+    margin-bottom: $gap/2;
+}
+
+footer p#mail{
+    margin-bottom: $gap/4;
+}
+
+footer form{
+    font-size: 0.8em;
+    p{
+        margin:0;
+        margin-top: $gap/4;
+        margin-bottom: $gap/4;
+    }
+
+    select, input{
+        border:$background-color-video-on solid 1px;
+        background: transparent;
+    }
+}

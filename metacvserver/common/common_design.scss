@@ -7,6 +7,8 @@ $mobile: "screen and (max-width: #{$breakpoint-mobile}px)";
 
 $gap: 1.25em;
 
+$background-color-video-on: #333333;
+
 @mixin button{
   background-color:black;
   color:white;
