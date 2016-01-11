@@ -1,15 +1,14 @@
 from importlib import import_module
 
-from django.views.generic import ListView
+from django.views.generic import TemplateView
 from django.template import Context
 from django.template.loader import get_template
 
 from cv.models import Hashtag
 
-class TheMainTemplateView(ListView):
+class TheMainTemplateView(TemplateView):
     """Serves themaintemplate.html and make sure it has the needed variables in
        context"""
-    model = Hashtag
     template_name = "themaintemplate/themaintemplate.html"
     MODULES = ["video", "cv"]
 
